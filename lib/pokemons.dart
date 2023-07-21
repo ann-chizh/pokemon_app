@@ -1,16 +1,35 @@
 import 'package:flutter/foundation.dart';
 
-class Pokemons {
+/*class Pokemon {
   final String name;
   final String url;
 
-  Pokemons({required this.name, required this.url});
+  Pokemon({required this.name, required this.url});
 
-  factory Pokemons.fromJson(Map<String, dynamic> json) {
-    return Pokemons(
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
       name: json['name'],
       url: json['url'],
     );
+  }
+}*/
+
+class Pokemon {
+  String? name;
+  String? url;
+
+  Pokemon({this.name, this.url});
+
+  Pokemon.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['name'] = name;
+    data['url'] = url;
+    return data;
   }
 }
 
@@ -18,20 +37,20 @@ class PokeHub {
   int? count;
   String? next;
   Null? previous;
-  List<Results>? results;
+  List<Pokemon>? pokemons;
 
 
 
-  PokeHub({this.count, this.next, this.previous, this.results});
+  PokeHub({this.count, this.next, this.previous, this.pokemons});
 
   PokeHub.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      pokemons = <Pokemon>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        pokemons!.add(new Pokemon.fromJson(v));
       });
     }
   }
@@ -43,28 +62,10 @@ class PokeHub {
     data['count'] = this.count;
     data['next'] = this.next;
     data['previous'] = this.previous;
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    if (this.pokemons != null) {
+      data['results'] = this.pokemons!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Results {
-  String? name;
-  String? url;
-
-  Results({this.name, this.url});
-
-  Results.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    url = json['url'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['url'] = this.url;
-    return data;
-  }
-}

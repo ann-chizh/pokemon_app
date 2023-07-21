@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pokemon_app/pokemon_detail.dart';
 import 'package:pokemon_app/pokemons.dart';
 import 'home_screen.dart';
 import 'dart:convert';
+import 'pokemon_detail.dart';
 
 void main(){
   runApp(MaterialApp(
@@ -27,22 +29,17 @@ class HomePageState extends State<HomePage>{
    initState()  {
     super.initState();
   fetchData();
-  setState(() {
-    print('set state');
-  });
   }
 
   PokeHub? pokeHub = null;
 
   fetchData() async{
-
     final uri = Uri.parse(url);
     var res = await http.get(uri);
     var decodedJson = jsonDecode(res.body);
-    pokeHub!=null ? pokeHub = PokeHub.fromJson(decodedJson):[];
-    pokeHub != null ? print(pokeHub!.toJson()): [];
+    pokeHub = PokeHub.fromJson(decodedJson);
     setState(() {
-      print('set state2');
+      print('setState 1');
     });
   }
 
@@ -53,13 +50,21 @@ class HomePageState extends State<HomePage>{
         title: Text("Pokemon App"),
         backgroundColor: Colors.cyan,
       ),
-      body: pokeHub == null ? Center(child: CircularProgressIndicator(),):
-      GridView.count(
+      body: pokeHub == null
+          ? Center(
+        child: CircularProgressIndicator(),
+      ): GridView.count(
         crossAxisCount: 2,
         children: pokeHub != null
-            ? pokeHub!.pokemons.map((poke)=>Padding(
+            ? pokeHub!.pokemons!.indexed.map((poke)=>Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Card(
+            child: InkWell(
+              onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PokeDetail(pokemon: poke.,)));
+              },
+                child: Hero(
+                  tag: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${poke.$1 + 1}.png'),
+                 child: Card(
               elevation: 3.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
@@ -67,18 +72,16 @@ class HomePageState extends State<HomePage>{
                   Container(
                     height: 100,
                     width: 100,
-                    // decoration: BoxDecoration(
-                      // image: DecorationImage(image: NetworkImage(poke.img)),
-                   //  ),
-                  ),
-                  Text(poke.name,
+                  child: Image.network('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${poke.$1 + 1}.png'),
+              ),
+                  Text(poke.$2.name ?? 'emptyName',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ))
                 ],
               )
-            ))).toList()
+            ))))).toList()
             : [],
       ),
       drawer: Drawer(),
