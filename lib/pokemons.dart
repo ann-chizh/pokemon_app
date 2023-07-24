@@ -17,8 +17,10 @@ import 'package:flutter/foundation.dart';
 class Pokemon {
   String? name;
   String? url;
-
-  Pokemon({this.name, this.url});
+  int? height; // Добавляем поле для хранения роста
+  int? weight;
+  List<String>? types;
+  Pokemon({this.name, this.url, this.height, this.weight, this.types});
 
   Pokemon.fromJson(Map<String, dynamic> json) {
     name = json['name'];
