@@ -108,7 +108,6 @@ class HomePageState extends State<HomePage> {
                         ))))))
             .toList(),
       ),
-      drawer: Drawer(),
     );
   }
 }

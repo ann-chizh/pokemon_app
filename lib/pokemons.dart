@@ -1,23 +1,7 @@
-import 'package:flutter/foundation.dart';
-
-/*class Pokemon {
-  final String name;
-  final String url;
-
-  Pokemon({required this.name, required this.url});
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
-}*/
-
 class Pokemon {
   String? name;
   String? url;
-  int? height; // Добавляем поле для хранения роста
+  int? height;
   int? weight;
   List<String>? types;
   Pokemon({this.name, this.url, this.height, this.weight, this.types});
