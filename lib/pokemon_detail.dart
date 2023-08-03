@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'pokemons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'pokemon_detail_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:connectivity/connectivity.dart';
+
 class PokeDetail extends StatefulWidget {
   final Pokemon pokemon;
-
-  PokeDetail({required this.pokemon});
+  final PokemonDetailBloc pokemonDetailBloc;
+  //final PokemonDetailBloc pokemonDetailBloc;
+  PokeDetail({required this.pokemon, required this.pokemonDetailBloc});
 
   @override
   _PokeDetailState createState() => _PokeDetailState();
@@ -14,12 +17,16 @@ class PokeDetail extends StatefulWidget {
 
 class _PokeDetailState extends State<PokeDetail> {
   late final PokemonDetailBloc _pokemonDetailBloc;
-
   @override
   void initState() {
     super.initState();
-    _pokemonDetailBloc = PokemonDetailBloc();
-    _pokemonDetailBloc.fetchPokemonDetails(widget.pokemon);
+    _pokemonDetailBloc = PokemonDetailBloc(); // Создаем новый экземпляр PokemonDetailBloc
+    _pokemonDetailBloc.fetchPokemonDetails(widget.pokemon.id!);
+   /* if (widget.pokemon.id != null) {
+      widget.pokemonDetailBloc.fetchPokemonDetails(widget.pokemon.id!);
+    } else {
+      print('error');
+    }*/
   }
 
   @override

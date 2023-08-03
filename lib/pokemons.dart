@@ -4,11 +4,26 @@ class Pokemon {
   int? height;
   int? weight;
   List<String>? types;
-  Pokemon({this.name, this.url, this.height, this.weight, this.types});
+  int? id;
+
+  Pokemon({this.name, this.url, this.height, this.weight, this.types, this.id}) {
+    if (url != null) {
+      final uriSegments = Uri.parse(url!).pathSegments;
+      id = int.parse(uriSegments[uriSegments.length - 2]);
+    } else {
+      id = 0;
+    }
+  }
 
   Pokemon.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     url = json['url'];
+    if (url != null) {
+      final uriSegments = Uri.parse(url!).pathSegments;
+      id = int.parse(uriSegments[uriSegments.length - 2]);
+    } else {
+      id = 0;
+    }
   }
 
   Map<String, dynamic> toJson() {
